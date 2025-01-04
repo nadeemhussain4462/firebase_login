@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+</head>
+<body>
+    <h2>Signup Page</h2>
+    <form id="signupForm">
+        <input type="email" id="signupEmail" placeholder="Enter Email" required>
+        <input type="password" id="signupPassword" placeholder="Enter Password" required>
+        <button type="submit">Signup</button>
+    </form>
+    <p id="signupMessage"></p>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+        };
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Signup Functionality
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+
+            try {
+                await auth.createUserWithEmailAndPassword(email, password);
+                document.getElementById('signupMessage').textContent = "Signup successful!";
+            } catch (error) {
+                document.getElementById('signupMessage').textContent = error.message;
+            }
+        });
+    </script>
+</body>
+</html>

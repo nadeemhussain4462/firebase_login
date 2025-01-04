@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  </head>
+  <body>
+    <h2>Profile Page</h2>
+    <p id="userEmail"></p>
+    <button id="logoutBtn">Logout</button>
+
+    <script>
+      // Initialize Firebase
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+      };
+      const app = firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      // Display User Info
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          document.getElementById(
+            "userEmail"
+          ).textContent = `Logged in as: ${user.email}`;
+        } else {
+          document.getElementById("userEmail").textContent =
+            "No user logged in";
+        }
+      });
+
+      // Logout Functionality
+      document
+        .getElementById("logoutBtn")
+        .addEventListener("click", async () => {
+          try {
+            await auth.signOut();
+            document.getElementById("userEmail").textContent =
+              "You have logged out.";
+          } catch (error) {
+            console.error(error);
+          }
+        });
+    </script>
+  </body>
+</html>
